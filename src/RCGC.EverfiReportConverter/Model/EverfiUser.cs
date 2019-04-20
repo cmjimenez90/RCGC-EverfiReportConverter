@@ -1,6 +1,6 @@
 namespace RCGC.EverfiReportConverter.Model
 {
-    public class EveriUser
+    public class EverfiUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
