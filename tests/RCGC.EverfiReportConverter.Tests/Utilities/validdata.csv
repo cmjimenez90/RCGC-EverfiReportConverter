@@ -1,0 +1,5 @@
+FIRST_NAME,LAST_NAME,EMAIL,SUPERVISOR,EMPLOYEE_ID
+Test1,Account1,taccount@fake.com,,asdfqwerzxcvasdfqwer
+Test2,Account2,taccount2@fake.com,,asdfqwerzxcvasdfqwer
+Test3,Account3,taccount3@fake.com,yes,cvbndfghertydfghccvbn
+test4,Account4,taccount4@fake.com,no,cvbndfghertydfghccvbn
