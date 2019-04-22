@@ -1,9 +1,11 @@
-version: 2.0
+version: 2.1
+executors:
+  my-executor:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
 jobs:
-  Test:
-    build:
-      docker:
-        - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  test:
+    executor: my-executor
     steps:
       - checkout
       - run:
@@ -17,4 +19,4 @@ workflows:
   version: 2
   Pull_Request_Flow:
     jobs:
-      - Test
+      - test
