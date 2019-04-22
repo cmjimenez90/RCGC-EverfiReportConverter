@@ -1,0 +1,20 @@
+version: 2.0
+jobs:
+  Test:
+    build:
+      docker:
+        - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    steps:
+      - checkout
+      - run:
+          name: restore dependencies
+          command: dotnet restore
+      - run:
+          name: test codebase
+          command: dotnet test
+
+workflows:
+  version: 2
+  Pull_Request_Flow:
+    jobs:
+      - Test
