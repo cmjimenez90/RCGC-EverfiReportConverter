@@ -8,7 +8,7 @@ namespace RCGC.EverfiReportConverter.Everfi
     {
         public string INPUT_START_LOCATION { get; set; } = "A3";
         public string TEMPLATE_SHEET_NAME { get; set; } = "Upload Template";
-        private ExcelPackage excelPackage;
+        private readonly ExcelPackage excelPackage;
 
         public EverfiExcelTemplate(FileInfo fileInfo)
         {
