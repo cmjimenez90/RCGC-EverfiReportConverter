@@ -1,0 +1,22 @@
+version: 2.1
+executors:
+  my-executor:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+jobs:
+  test:
+    executor: my-executor
+    steps:
+      - checkout
+      - run:
+          name: restore dependencies
+          command: dotnet restore
+      - run:
+          name: test codebase
+          command: dotnet test
+
+workflows:
+  version: 2
+  Pull_Request_Flow:
+    jobs:
+      - test
