@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 
 namespace RCGC.EverfiReportConverter
 {
@@ -6,7 +7,13 @@ namespace RCGC.EverfiReportConverter
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IContainer container = ContainerConfiguration.Configure();
+
+            using (ILifetimeScope scope = container.BeginLifetimeScope())
+            {
+                IApplication application = scope.Resolve<IApplication>();
+                application.Run(new string[0]);
+            }
         }
     }
 }

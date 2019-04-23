@@ -11,17 +11,21 @@ namespace RCGC.EverfiReportConverter.Everfi
         }
 
         public CSVFileFormat(char delimeter){
-            this.format = new ExcelTextFormat();
-            this.format.Delimiter = delimeter;
+            this.format = new ExcelTextFormat
+            {
+                Delimiter = delimeter
+            };
         }
 
         public CSVFileFormat(char delimeter, int skipBeginingLines){
-            this.format = new ExcelTextFormat();
-            this.format.Delimiter = delimeter;
-            this.format.SkipLinesBeginning = skipBeginingLines;
+            this.format = new ExcelTextFormat
+            {
+                Delimiter = delimeter,
+                SkipLinesBeginning = skipBeginingLines
+            };
         }
 
-        public ExcelTextFormat getFormat(){
+        public ExcelTextFormat GetFormat(){
             return this.format;
         }
     }
