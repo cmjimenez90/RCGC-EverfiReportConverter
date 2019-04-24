@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RCGC.EverfiReportConverter
+﻿namespace RCGC.EverfiReportConverter
 {
     internal interface IApplication
     {
