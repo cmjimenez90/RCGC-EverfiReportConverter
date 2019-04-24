@@ -9,7 +9,7 @@ namespace RCGC.EverfiReportConverter
         public void Run(string[] args)
         {
             Console.WriteLine("I am running");
-            Console.ReadLine();
+            Console.ReadKey();
         }
     }
 }
