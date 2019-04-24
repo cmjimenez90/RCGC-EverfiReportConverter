@@ -28,7 +28,7 @@ namespace RCGC.EverfiReportConverter.Everfi
             {
                 ExcelWorksheet sheet = FindWorkSheetByName(this.TEMPLATE_SHEET_NAME);
                 if(null != sheet){
-                    sheet.Cells[this.INPUT_START_LOCATION].LoadFromText(csvFile,csvFormat.getFormat());
+                    sheet.Cells[this.INPUT_START_LOCATION].LoadFromText(csvFile,csvFormat.GetFormat());
                     return true;
                 }
                 return false;
