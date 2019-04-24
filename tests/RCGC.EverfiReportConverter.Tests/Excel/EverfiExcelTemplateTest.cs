@@ -1,6 +1,6 @@
 using System.IO;
 using Xunit;
-using RCGC.EverfiReportConverter.Everfi;
+using RCGC.EverfiReportConverter.Core;
 using RCGC.EverfiReportConverter.Tests.Utilities;
 
 namespace RCGC.EverfiReportConverter.Tests.Excel
