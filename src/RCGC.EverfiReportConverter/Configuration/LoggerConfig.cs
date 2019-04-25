@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Serilog;
-using Serilog.Settings.Configuration;
 
 namespace RCGC.EverfiReportConverter.Configuration
 {
