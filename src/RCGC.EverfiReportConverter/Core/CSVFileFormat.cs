@@ -1,6 +1,6 @@
 using OfficeOpenXml;
 
-namespace RCGC.EverfiReportConverter.Everfi
+namespace RCGC.EverfiReportConverter.Core
 {
     public class CSVFileFormat
     {

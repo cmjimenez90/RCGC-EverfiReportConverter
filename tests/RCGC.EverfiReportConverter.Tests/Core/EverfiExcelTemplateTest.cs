@@ -1,9 +1,8 @@
 using System.IO;
 using Xunit;
-using RCGC.EverfiReportConverter.Everfi;
-using RCGC.EverfiReportConverter.Tests.Utilities;
+using RCGC.EverfiReportConverter.Core;
 
-namespace RCGC.EverfiReportConverter.Tests.Excel
+namespace RCGC.EverfiReportConverter.Tests.Core
 {
     public class EverfiExcelTemplateTest
     {
@@ -18,8 +17,8 @@ namespace RCGC.EverfiReportConverter.Tests.Excel
         [Fact]
         public void EverfiExcelTemplate_SaveTemplateTo_ReturnsFalseIfFileAlreadyExist()
         {
-            FileInfo existingTemplate = new FileInfo("../../../Utilities/faketemplate.xlsx");
-            FileInfo existingFilePathPath = new FileInfo("../../../Utilities/existingsaveas.xlsx");
+            FileInfo existingTemplate = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
+            FileInfo existingFilePathPath = new FileInfo("../../../Utilities/TestData/existingsaveas.xlsx");
 
             bool didFileSave = true;
 
@@ -34,8 +33,8 @@ namespace RCGC.EverfiReportConverter.Tests.Excel
         [Fact]
         public void EverfiExcelTemplate_SaveTemplateTo_ReturnsTrueIfFileSaveSuccessful()
         {
-            FileInfo existingTemplate = new FileInfo("../../../Utilities/faketemplate.xlsx");
-            FileInfo nonexistingFilePath = new FileInfo("../../../Utilities/nonexistingsaveas.xlsx");
+            FileInfo existingTemplate = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
+            FileInfo nonexistingFilePath = new FileInfo("../../../Utilities/TestData/nonexistingsaveas.xlsx");
 
             bool didFileSave = false;
 
@@ -44,15 +43,15 @@ namespace RCGC.EverfiReportConverter.Tests.Excel
                 didFileSave = excelTemplate.SaveTemplateTo(nonexistingFilePath);
             }
 
-            FileCleanup.Instance.RemoveFile(nonexistingFilePath);
+            nonexistingFilePath.Delete();
             Assert.True(didFileSave);
         }
 
         [Fact]
         public void EverfiExcelTemplate_SaveTemplateTo_WillLeaveCreatedFileBehind()
         {
-            FileInfo existingTemplate = new FileInfo("../../../Utilities/faketemplate.xlsx");
-            FileInfo nonexistingFilePath = new FileInfo("../../../Utilities/nonexistingsaveas.xlsx");
+            FileInfo existingTemplate = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
+            FileInfo nonexistingFilePath = new FileInfo("../../../Utilities/TestData/nonexistingsaveas.xlsx");
 
             bool doesFileInitiallyExist = nonexistingFilePath.Exists;
             bool doesFileExistAfterSaveAs = false;
@@ -64,7 +63,7 @@ namespace RCGC.EverfiReportConverter.Tests.Excel
                 doesFileExistAfterSaveAs = nonexistingFilePath.Exists;
             }
 
-            FileCleanup.Instance.RemoveFile(nonexistingFilePath);
+            nonexistingFilePath.Delete();
             Assert.False(doesFileInitiallyExist);
             Assert.True(doesFileExistAfterSaveAs);
         }
@@ -73,8 +72,8 @@ namespace RCGC.EverfiReportConverter.Tests.Excel
         [Fact]
         public void EverfiExcelTemplate_ImportCSV_ThrowsFileNotFoundIfFileDoesNotExist()
         {
-            FileInfo existingFilePath = new FileInfo("../../../Utilities/faketemplate.xlsx");
-            FileInfo nonExistingCSVFile = new FileInfo("../../../Utilities/nonexisting.csv");
+            FileInfo existingFilePath = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
+            FileInfo nonExistingCSVFile = new FileInfo("../../../Utilities/TestData/nonexisting.csv");
 
             using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath))
             {
@@ -85,8 +84,8 @@ namespace RCGC.EverfiReportConverter.Tests.Excel
         [Fact]
         public void EverfiExcelTemplate_ImportCSV_ReturnsFalseIfSheetDoesNotExist()
         {
-            FileInfo existingFilePath = new FileInfo("../../../Utilities/faketemplate.xlsx");
-            FileInfo csvFile = new FileInfo("../../../Utilities/data.csv");
+            FileInfo existingFilePath = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
+            FileInfo csvFile = new FileInfo("../../../Utilities/TestData/data.csv");
             string wrongSheetName = "Does Not Exist";
             bool csvDataImported = true;
 
@@ -103,8 +102,8 @@ namespace RCGC.EverfiReportConverter.Tests.Excel
         [Fact]
         public void EverfiExcelTemplate_ImportCSV_ReturnsTrueIfDataIsImported()
         {
-            FileInfo existingFilePath = new FileInfo("../../../Utilities/faketemplate.xlsx");
-            FileInfo csvFile = new FileInfo("../../../Utilities/data.csv");
+            FileInfo existingFilePath = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
+            FileInfo csvFile = new FileInfo("../../../Utilities/TestData/data.csv");
             bool csvDataImported = false;
 
             using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath))

@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using OfficeOpenXml;
 
-namespace RCGC.EverfiReportConverter.Everfi
+namespace RCGC.EverfiReportConverter.Core
 {
-    public class EverfiExcelTemplate : IDisposable
+    public class EverfiExcelTemplate : IDisposable, IExcelTemplate
     {
         public string INPUT_START_LOCATION { get; set; } = "A3";
         public string TEMPLATE_SHEET_NAME { get; set; } = "Upload Template";
