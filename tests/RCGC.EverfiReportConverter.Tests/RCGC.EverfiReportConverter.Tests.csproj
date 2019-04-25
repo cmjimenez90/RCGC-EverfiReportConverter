@@ -19,4 +19,8 @@
     <ProjectReference Include="..\..\src\RCGC.EverfiReportConverter\RCGC.EverfiReportConverter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utilities\TestData\ExistingTestDirectory\" />
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,6 @@
 using System.IO;
 using Xunit;
 using RCGC.EverfiReportConverter.Core;
-using RCGC.EverfiReportConverter.Tests.Utilities;
 
 namespace RCGC.EverfiReportConverter.Tests.Core
 {
@@ -44,7 +43,7 @@ namespace RCGC.EverfiReportConverter.Tests.Core
                 didFileSave = excelTemplate.SaveTemplateTo(nonexistingFilePath);
             }
 
-            FileCleanup.Instance.RemoveFile(nonexistingFilePath);
+            nonexistingFilePath.Delete();
             Assert.True(didFileSave);
         }
 
@@ -64,7 +63,7 @@ namespace RCGC.EverfiReportConverter.Tests.Core
                 doesFileExistAfterSaveAs = nonexistingFilePath.Exists;
             }
 
-            FileCleanup.Instance.RemoveFile(nonexistingFilePath);
+            nonexistingFilePath.Delete();
             Assert.False(doesFileInitiallyExist);
             Assert.True(doesFileExistAfterSaveAs);
         }
