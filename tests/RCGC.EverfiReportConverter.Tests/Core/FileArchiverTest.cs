@@ -8,7 +8,7 @@ using Moq;
 
 namespace RCGC.EverfiReportConverter.Tests.Core
 {
-    public class FileToFileArchiverTest
+    public class FileArchiverTest
     {
         [Fact]
         public void Archive_AppendsDateTimeStampToEndOfFileName()
