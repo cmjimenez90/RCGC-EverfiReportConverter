@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RCGC.EverfiReportConverter.Configuration
 {
-    class ReportConfiguration
+    public class ReportConfiguration
     {
         public String CSVReportPath { get; set; }
         public String ArchivePath { get;  set; }

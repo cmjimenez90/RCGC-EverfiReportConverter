@@ -1,16 +1,22 @@
 ﻿using RCGC.EverfiReportConverter.Core;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace RCGC.EverfiReportConverter
 {
     class Application : IApplication
     {
-        
-        public void Run(string[] args)
+        private readonly ReportConverter reportConverter;
+        private readonly ILogger logger;
+        public Application(ReportConverter reportConverter, ILogger logger)
         {
+            this.reportConverter = reportConverter;
+            this.logger = logger;
+        }
+
+        public void Run()
+        {         
             Console.ReadKey();
         }
     }

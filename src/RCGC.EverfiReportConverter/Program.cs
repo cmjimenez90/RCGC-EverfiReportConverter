@@ -17,9 +17,8 @@ namespace RCGC.EverfiReportConverter
 
             using (ILifetimeScope scope = container.BeginLifetimeScope())
             {
-                
                 IApplication application = scope.Resolve<IApplication>();
-                application.Run(new string[0]);
+                application.Run();
             }
         }
     }
