@@ -36,8 +36,7 @@ namespace RCGC.EverfiReportConverter
         }
 
         public void Run()
-        {
-           
+        {  
             try
             {
                 if (!VerifyImportFiles())
@@ -47,7 +46,7 @@ namespace RCGC.EverfiReportConverter
                 }
                 EverfiExcelTemplate template = new EverfiExcelTemplate(this.templateFile);
 
-                ExcelTextFormat format = new ExcelTextFormat();
+                ExcelTextFormat format = GetCSVFileConfiguration();
                 template.ImportCsv(format, this.csvFile);
                 FileInfo saveDestination = CreateExcelReportFileInfo(Environment.ExpandEnvironmentVariables(this.configuration.ReportSavePath));
 
@@ -115,6 +114,14 @@ namespace RCGC.EverfiReportConverter
         private String FormatTimeStamp(DateTime timestamp)
         {
             return timestamp.ToString("_yyyyMMdd-HHmmss");
+        }
+
+        private ExcelTextFormat GetCSVFileConfiguration()
+        {
+            ExcelTextFormat format = new ExcelTextFormat();
+            format.EOL = configuration.EOF;
+            format.SkipLinesBeginning = configuration.SkipBeginingCSVLines;
+            return format;
         }
     }
 }
