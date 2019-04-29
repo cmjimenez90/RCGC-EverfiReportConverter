@@ -22,13 +22,13 @@ namespace RCGC.EverfiReportConverter.Core
             }
         }
 
-        public bool ImportCsv(CSVFileFormat csvFormat, FileInfo csvFile)
+        public bool ImportCsv(ExcelTextFormat csvFormat, FileInfo csvFile)
         {
             if (csvFile.Exists)
             {
                 ExcelWorksheet sheet = FindWorkSheetByName(this.TEMPLATE_SHEET_NAME);
                 if(null != sheet){
-                    sheet.Cells[this.INPUT_START_LOCATION].LoadFromText(csvFile,csvFormat.GetFormat());
+                    sheet.Cells[this.INPUT_START_LOCATION].LoadFromText(csvFile,csvFormat);
                     return true;
                 }
                 return false;

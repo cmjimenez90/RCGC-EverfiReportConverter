@@ -1,6 +1,7 @@
 using System.IO;
 using Xunit;
 using RCGC.EverfiReportConverter.Core;
+using OfficeOpenXml;
 
 namespace RCGC.EverfiReportConverter.Tests.Core
 {
@@ -77,7 +78,7 @@ namespace RCGC.EverfiReportConverter.Tests.Core
 
             using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath))
             {
-                CSVFileFormat format = new CSVFileFormat();
+                ExcelTextFormat format = new ExcelTextFormat();
                 Assert.Throws<FileNotFoundException>(() => excelTemplate.ImportCsv(format, nonExistingCSVFile));
             }
         }
@@ -91,7 +92,7 @@ namespace RCGC.EverfiReportConverter.Tests.Core
 
             using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath))
             {
-                CSVFileFormat format = new CSVFileFormat();
+                ExcelTextFormat format = new ExcelTextFormat();
                 excelTemplate.TEMPLATE_SHEET_NAME = wrongSheetName;
                 csvDataImported = excelTemplate.ImportCsv(format, csvFile);
             }
@@ -108,7 +109,7 @@ namespace RCGC.EverfiReportConverter.Tests.Core
 
             using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath))
             {
-                CSVFileFormat format = new CSVFileFormat();
+                ExcelTextFormat format = new ExcelTextFormat();
                 csvDataImported = excelTemplate.ImportCsv(format, csvFile);
             }
 

@@ -1,4 +1,5 @@
-﻿using RCGC.EverfiReportConverter.Configuration;
+﻿using OfficeOpenXml;
+using RCGC.EverfiReportConverter.Configuration;
 using RCGC.EverfiReportConverter.Core;
 using Serilog;
 using System;
@@ -46,7 +47,7 @@ namespace RCGC.EverfiReportConverter
                 }
                 EverfiExcelTemplate template = new EverfiExcelTemplate(this.templateFile);
 
-                CSVFileFormat format = new CSVFileFormat();
+                ExcelTextFormat format = new ExcelTextFormat();
                 template.ImportCsv(format, this.csvFile);
                 FileInfo saveDestination = CreateExcelReportFileInfo(Environment.ExpandEnvironmentVariables(this.configuration.ReportSavePath));
 
