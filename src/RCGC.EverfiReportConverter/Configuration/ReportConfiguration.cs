@@ -7,7 +7,7 @@ namespace RCGC.EverfiReportConverter.Configuration
     public class ReportConfiguration
     {
         public String CSVReportPath { get; set; }
-        public String ArchivePath { get;  set; }
+        public String ArchiveDirectory { get;  set; }
         public String ExcelTemplatePath { get;  set; }
         public String ReportSavePath { get;  set; }
     }

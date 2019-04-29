@@ -19,9 +19,8 @@ namespace RCGC.EverfiReportConverter.Configuration
             {
                 ReportConfiguration reportConfiguration = new ReportConfiguration();
                 configuration.GetSection("ReportConfiguration").Bind(reportConfiguration);
-                return new ReportConverter(Log.Logger, reportConfiguration);
-            }).As<ReportConverter>();
-            builder.RegisterType<Application>().As<IApplication>();
+                return new Application(reportConfiguration, Log.Logger);
+            }).As<IApplication>();
             builder.RegisterLogger();
             return builder.Build();
         }       
