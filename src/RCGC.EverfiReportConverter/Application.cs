@@ -45,35 +45,39 @@ namespace RCGC.EverfiReportConverter
                     logger.Information("Required Files do not exist. Exiting the application.");
                     Environment.Exit(0);
                 }
-                EverfiExcelTemplate template = new EverfiExcelTemplate(this.templateFile);
 
-                ExcelTextFormat format = GetCSVFileConfiguration();
-                template.ImportCsv(format, this.csvFile);
-                DateFileTagger fileTagger = new DateFileTagger();
-                FileInfo saveDestination = new FileInfo(Environment.ExpandEnvironmentVariables(this.configuration.ReportSavePath));
-                saveDestination = fileTagger.Tag(saveDestination, this.timeStamp);
-
-
-                bool saveSuccessful = template.SaveTemplateTo(saveDestination);
-                if (saveSuccessful)
+                logger.Information("Loading Template at: {0}", templateFile.FullName);
+                using (EverfiExcelTemplate template = new EverfiExcelTemplate(this.templateFile))
                 {
-                    logger.Information("Save successful | Path: {0}", saveDestination.FullName);
-                    DirectoryInfo archiveDirectory = new DirectoryInfo(Environment.ExpandEnvironmentVariables(configuration.ArchiveDirectory));
-                    FileInfo archivedFile = this.fileArchiver.Archive(csvFile, archiveDirectory);
-                    if (!archivedFile.Exists)
+                    ExcelTextFormat format = GetCSVFileConfiguration();
+                    logger.Information("Importing CSV File from: {0}", csvFile.FullName);
+                    template.ImportCsv(format, this.csvFile);
+                    DateFileTagger fileTagger = new DateFileTagger();
+                    FileInfo saveDestination = new FileInfo(Environment.ExpandEnvironmentVariables(this.configuration.ReportSavePath));                  
+                    saveDestination = fileTagger.Tag(saveDestination, this.timeStamp);
+
+                    logger.Information("Saving report to: {0}", saveDestination.FullName);
+                    bool saveSuccessful = template.SaveTemplateTo(saveDestination);
+                    if (saveSuccessful)
                     {
-                        logger.Warning("Could not archive the CSV File: {0}", archivedFile.FullName);
+                        logger.Information("Save successful | Path: {0}", saveDestination.FullName);
+                        DirectoryInfo archiveDirectory = new DirectoryInfo(Environment.ExpandEnvironmentVariables(configuration.ArchiveDirectory));
+                        FileInfo archivedFile = this.fileArchiver.Archive(csvFile, archiveDirectory);
+                        if (!archivedFile.Exists)
+                        {
+                            logger.Warning("Could not archive the CSV File: {0}", archivedFile.FullName);
+                        }
+                        else
+                        {
+                            logger.Information("Archive successful: {0}", archivedFile.FullName);
+                        }
                     }
                     else
                     {
-                        logger.Information("Archive successful: {0}", archivedFile.FullName);
+                        logger.Error("Failed to save the exported excel sheet in the specified location: {0}", saveDestination.FullName);
+                        Environment.Exit(0);
                     }
-                }
-                else
-                {
-                    logger.Error("Failed to save the exported excel sheet in the specified location: {0}", saveDestination.FullName);
-                    Environment.Exit(0);
-                }
+                }                               
             }
             catch (Exception ex)
             {
