@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
 using RCGC.EverfiReportConverter.Configuration;
+using RCGC.EverfiReportConverter.Core;
 using Serilog;
 
 namespace RCGC.EverfiReportConverter
@@ -17,9 +18,7 @@ namespace RCGC.EverfiReportConverter
             using (ILifetimeScope scope = container.BeginLifetimeScope())
             {
                 IApplication application = scope.Resolve<IApplication>();
-                ILogger log = scope.Resolve<ILogger>();
-                log.Debug("test");
-                application.Run(new string[0]);
+                application.Run();
             }
         }
     }

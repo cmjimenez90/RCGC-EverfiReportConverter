@@ -2,6 +2,6 @@
 {
     internal interface IApplication
     {
-        void Run(string[] args);
+        void Run();
     }
 }

@@ -1,8 +1,8 @@
-﻿using Serilog;
+﻿using RCGC.EverfiReportConverter.Core.FileTagger;
+using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+
 
 namespace RCGC.EverfiReportConverter.Core
 {
@@ -10,17 +10,20 @@ namespace RCGC.EverfiReportConverter.Core
     {
         private readonly DateTime timestamp;
         private readonly ILogger log;
+        private readonly DateFileTagger fileTagger;
 
         public FileArchiver(DateTime timestamp, ILogger log)
         {
             this.timestamp = timestamp;
             this.log = log;
+            this.log.ForContext<FileArchiver>();
+            this.fileTagger = new DateFileTagger();
         }
 
         public FileInfo Archive(FileInfo input, DirectoryInfo destination)
         {
             CreateDestinationDirectory(destination);
-            String archiveName = CreateArchiveFileName(input);
+            String archiveName = fileTagger.Tag(input, this.timestamp).FullName;
             String fullArchivePath = Path.Combine(destination.FullName, Path.GetFileName(archiveName));
             try
             {
@@ -40,6 +43,7 @@ namespace RCGC.EverfiReportConverter.Core
         {
             if (!directory.Exists)
             {
+                log.Verbose("directory does not exist creating destination at {0}", directory.FullName);
                 try
                 {
                     directory.Create();
@@ -50,20 +54,6 @@ namespace RCGC.EverfiReportConverter.Core
    
                 }           
             }
-        }
-
-        private String CreateArchiveFileName(FileInfo input)
-        {
-            int TimestampStartLocation = input.FullName.Length - input.Extension.Length;
-           
-            String newFileName = input.FullName.Insert(TimestampStartLocation, FormatTimeStamp());
-            return newFileName;
-        }
-
-        private String FormatTimeStamp()
-        {
-            return timestamp.ToString("_yyyyMMdd-HHmmss");
-        }
-
+        }     
     }
 }
