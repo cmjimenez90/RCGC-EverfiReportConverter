@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Autofac;
+using Microsoft.Extensions.Configuration;
+using RCGC.EverfiReportConverter.Configuration;
+using RCGC.EverfiReportConverter.Core;
+using Serilog;
 
 namespace RCGC.EverfiReportConverter
 {
@@ -6,7 +10,16 @@ namespace RCGC.EverfiReportConverter
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            IContainer container = ContainerConfiguration.Configure(configuration);
+
+            using (ILifetimeScope scope = container.BeginLifetimeScope())
+            {
+                IApplication application = scope.Resolve<IApplication>();
+                application.Run();
+            }
         }
     }
 }
