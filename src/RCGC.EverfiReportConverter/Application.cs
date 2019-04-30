@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using RCGC.EverfiReportConverter.Configuration;
 using RCGC.EverfiReportConverter.Core;
+using RCGC.EverfiReportConverter.Core.FileTagger;
 using Serilog;
 using System;
 using System.IO;
@@ -48,7 +49,9 @@ namespace RCGC.EverfiReportConverter
 
                 ExcelTextFormat format = GetCSVFileConfiguration();
                 template.ImportCsv(format, this.csvFile);
-                FileInfo saveDestination = CreateExcelReportFileInfo(Environment.ExpandEnvironmentVariables(this.configuration.ReportSavePath));
+                DateFileTagger fileTagger = new DateFileTagger();
+                FileInfo saveDestination = new FileInfo(Environment.ExpandEnvironmentVariables(this.configuration.ReportSavePath));
+                saveDestination = fileTagger.Tag(saveDestination, this.timeStamp);
 
 
                 bool saveSuccessful = template.SaveTemplateTo(saveDestination);
@@ -94,33 +97,15 @@ namespace RCGC.EverfiReportConverter
                 return false;
             }
             return true;
-        }
-
-        private FileInfo CreateExcelReportFileInfo(string input)
-        {
-            FileInfo orginalFileInfo = new FileInfo(input);
-            FileInfo destinationFileInfo = new FileInfo(ModifyFileName(orginalFileInfo));
-            return destinationFileInfo;
-        }
-
-        private String ModifyFileName(FileInfo input)
-        {
-            int TimestampStartLocation = input.FullName.Length - input.Extension.Length;
-
-            String newFileName = input.FullName.Insert(TimestampStartLocation, FormatTimeStamp(this.timeStamp));
-            return newFileName;
-        }
-
-        private String FormatTimeStamp(DateTime timestamp)
-        {
-            return timestamp.ToString("_yyyyMMdd-HHmmss");
-        }
+        }    
 
         private ExcelTextFormat GetCSVFileConfiguration()
         {
-            ExcelTextFormat format = new ExcelTextFormat();
-            format.EOL = configuration.EOF;
-            format.SkipLinesBeginning = configuration.SkipBeginingCSVLines;
+            ExcelTextFormat format = new ExcelTextFormat
+            {
+                EOL = configuration.EOF,
+                SkipLinesBeginning = configuration.SkipBeginingCSVLines
+            };
             return format;
         }
     }
