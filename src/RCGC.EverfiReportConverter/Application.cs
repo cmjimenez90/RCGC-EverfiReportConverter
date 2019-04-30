@@ -22,6 +22,7 @@ namespace RCGC.EverfiReportConverter
         {
             this.configuration = configuration;
             this.logger = logger;
+            this.logger.ForContext<Application>();
             try
             {
                 timeStamp = DateTime.Now;
@@ -42,12 +43,12 @@ namespace RCGC.EverfiReportConverter
             {
                 if (!VerifyImportFiles())
                 {
-                    logger.Information("Required Files do not exist. Exiting the application.");
+                    logger.Error("Required Files do not exist. Exiting the application.");
                     Environment.Exit(0);
                 }
 
                 logger.Information("Loading Template at: {0}", templateFile.FullName);
-                using (EverfiExcelTemplate template = new EverfiExcelTemplate(this.templateFile))
+                using (EverfiExcelTemplate template = new EverfiExcelTemplate(this.templateFile, this.logger))
                 {
                     ExcelTextFormat format = GetCSVFileConfiguration();
                     logger.Information("Importing CSV File from: {0}", csvFile.FullName);
@@ -92,12 +93,12 @@ namespace RCGC.EverfiReportConverter
         {
             if (!this.templateFile.Exists)
             {
-                logger.Information("Could not verify excel template: {0}", this.templateFile.FullName);
+                logger.Error("Could not verify excel template: {0}", this.templateFile.FullName);
                 return false;
             }            
             if (!this.csvFile.Exists)
             {
-                logger.Information("Could not verify csv file: {0}", this.csvFile.FullName);
+                logger.Error("Could not verify csv file: {0}", this.csvFile.FullName);
                 return false;
             }
             return true;

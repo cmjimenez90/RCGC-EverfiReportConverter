@@ -1,9 +1,8 @@
 ﻿using RCGC.EverfiReportConverter.Core.FileTagger;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+
 
 namespace RCGC.EverfiReportConverter.Core
 {
@@ -17,6 +16,7 @@ namespace RCGC.EverfiReportConverter.Core
         {
             this.timestamp = timestamp;
             this.log = log;
+            this.log.ForContext<FileArchiver>();
             this.fileTagger = new DateFileTagger();
         }
 
@@ -43,6 +43,7 @@ namespace RCGC.EverfiReportConverter.Core
         {
             if (!directory.Exists)
             {
+                log.Verbose("directory does not exist creating destination at {0}", directory.FullName);
                 try
                 {
                     directory.Create();
