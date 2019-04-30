@@ -1,7 +1,9 @@
 using System.IO;
+using Moq;
 using Xunit;
 using RCGC.EverfiReportConverter.Core;
 using OfficeOpenXml;
+using Serilog;
 
 namespace RCGC.EverfiReportConverter.Tests.Core
 {
@@ -10,9 +12,10 @@ namespace RCGC.EverfiReportConverter.Tests.Core
         [Fact]
         public void EverfiExcelTemplate_ThrowsError_WhenTemplateDoesNotExist()
         {
+            var mockLogger = new Mock<ILogger>();
             FileInfo nonExistingTemplatePath = new FileInfo("./nonexistingFilePath.xlsx");
 
-            Assert.Throws<FileNotFoundException>(() => new EverfiExcelTemplate(nonExistingTemplatePath));
+            Assert.Throws<FileNotFoundException>(() => new EverfiExcelTemplate(nonExistingTemplatePath,mockLogger.Object));
         }
 
         [Fact]
@@ -20,10 +23,10 @@ namespace RCGC.EverfiReportConverter.Tests.Core
         {
             FileInfo existingTemplate = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
             FileInfo existingFilePathPath = new FileInfo("../../../Utilities/TestData/existingsaveas.xlsx");
-
+            var mockLogger = new Mock<ILogger>();
             bool didFileSave = true;
 
-            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingTemplate))
+            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingTemplate, mockLogger.Object))
             {
                 didFileSave = excelTemplate.SaveTemplateTo(existingFilePathPath);
             }
@@ -36,10 +39,10 @@ namespace RCGC.EverfiReportConverter.Tests.Core
         {
             FileInfo existingTemplate = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
             FileInfo nonexistingFilePath = new FileInfo("../../../Utilities/TestData/nonexistingsaveas.xlsx");
-
+            var mockLogger = new Mock<ILogger>();
             bool didFileSave = false;
 
-            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingTemplate))
+            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingTemplate, mockLogger.Object))
             {
                 didFileSave = excelTemplate.SaveTemplateTo(nonexistingFilePath);
             }
@@ -53,11 +56,11 @@ namespace RCGC.EverfiReportConverter.Tests.Core
         {
             FileInfo existingTemplate = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
             FileInfo nonexistingFilePath = new FileInfo("../../../Utilities/TestData/nonexistingsaveas.xlsx");
-
+            var mockLogger = new Mock<ILogger>();
             bool doesFileInitiallyExist = nonexistingFilePath.Exists;
             bool doesFileExistAfterSaveAs = false;
 
-            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingTemplate))
+            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingTemplate, mockLogger.Object))
             {
                 excelTemplate.SaveTemplateTo(nonexistingFilePath);
                 nonexistingFilePath.Refresh();
@@ -75,8 +78,8 @@ namespace RCGC.EverfiReportConverter.Tests.Core
         {
             FileInfo existingFilePath = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
             FileInfo nonExistingCSVFile = new FileInfo("../../../Utilities/TestData/nonexisting.csv");
-
-            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath))
+            var mockLogger = new Mock<ILogger>();
+            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath, mockLogger.Object))
             {
                 ExcelTextFormat format = new ExcelTextFormat();
                 Assert.Throws<FileNotFoundException>(() => excelTemplate.ImportCsv(format, nonExistingCSVFile));
@@ -89,8 +92,8 @@ namespace RCGC.EverfiReportConverter.Tests.Core
             FileInfo csvFile = new FileInfo("../../../Utilities/TestData/data.csv");
             string wrongSheetName = "Does Not Exist";
             bool csvDataImported = true;
-
-            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath))
+            var mockLogger = new Mock<ILogger>();
+            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath, mockLogger.Object))
             {
                 ExcelTextFormat format = new ExcelTextFormat();
                 excelTemplate.TEMPLATE_SHEET_NAME = wrongSheetName;
@@ -106,8 +109,8 @@ namespace RCGC.EverfiReportConverter.Tests.Core
             FileInfo existingFilePath = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
             FileInfo csvFile = new FileInfo("../../../Utilities/TestData/data.csv");
             bool csvDataImported = false;
-
-            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath))
+            var mockLogger = new Mock<ILogger>();
+            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath, mockLogger.Object))
             {
                 ExcelTextFormat format = new ExcelTextFormat();
                 csvDataImported = excelTemplate.ImportCsv(format, csvFile);

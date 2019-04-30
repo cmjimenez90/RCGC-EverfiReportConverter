@@ -38,7 +38,7 @@ namespace RCGC.EverfiReportConverter.Core
                     this.logger.Debug("Loading CSV data: {0} into sheet with name of {2}", csvFile.FullName, this.TEMPLATE_SHEET_NAME);
                     sheet.Cells[this.INPUT_START_LOCATION].LoadFromText(csvFile,csvFormat);
                     return true;
-                }              ;
+                }              
                 return false;
             }
             else
@@ -54,6 +54,7 @@ namespace RCGC.EverfiReportConverter.Core
                 this.logger.Debug("Can not overwrite existing save path: {0}",savePath.FullName);
                 return false;
             }
+
             try
             {
                 this.excelPackage.SaveAs(savePath);
@@ -77,8 +78,11 @@ namespace RCGC.EverfiReportConverter.Core
             foreach (ExcelWorksheet sheet in this.excelPackage.Workbook.Worksheets)
             {
                 if (sheet.Name == workSheetName)
+                {
                     this.logger.Verbose("Sheet found: {0}", sheet.Name);
                     return sheet;
+                }
+                    
             }
             this.logger.Verbose("Sheet not found: {0} | returning null", workSheetName);
             return null;
