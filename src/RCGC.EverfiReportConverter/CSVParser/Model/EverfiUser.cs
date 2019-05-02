@@ -2,14 +2,14 @@ namespace RCGC.EverfiReportConverter.CSVParser.Model
 {
     public class EverfiUser
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string EmployeId { get; set; }
-        public string Supervisor { get; set; }
-        public string LocationTitle { get; set; }
-        public string LocationAbr { get; set; }
-        public string GroupTitle { get; set; }
-        public string GroupAbr { get; set; }
+        public string FIRST_NAME { get; set; }
+        public string LAST_NAME { get; set; }
+        public string EMAIL { get; set; }
+        public string EMPLOYEE_ID { get; set; }
+        public string SUPERVISOR { get; set; }
+        public string LOCATION_TITLE { get; set; }
+        public string LOCATION_ABR { get; set; }
+        public string GROUP_TITLE { get; set; }
+        public string GROUP_ABR { get; set; }
     }
 }
