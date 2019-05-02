@@ -16,8 +16,10 @@ namespace RCGC.EverfiReportConverter.Configuration
             builder.Register(config =>
             {
                 AppConfiguration appConfiguration = new AppConfiguration();
+                CSVFieldOverrides csvFieldOverrides = new CSVFieldOverrides();
                 configuration.GetSection("AppConfiguration").Bind(appConfiguration);
-                return new Application(appConfiguration, Log.Logger);
+                configuration.GetSection("CSVFieldOverrides").Bind(csvFieldOverrides);
+                return new Application(appConfiguration,csvFieldOverrides, Log.Logger);
             }).As<IApplication>();
             builder.RegisterLogger();
             return builder.Build();
