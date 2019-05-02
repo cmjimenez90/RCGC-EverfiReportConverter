@@ -1,11 +1,10 @@
 using System.IO;
 
 using Xunit;
-using RCGC.EverfiReportConverter.FileParser;
-using RCGC.EverfiReportConverter.Model;
+using RCGC.EverfiReportConverter.CSVParser;
 using System.Linq;
 
-namespace RCGC.EverfiReportConverter.Tests.FileParser
+namespace RCGC.EverfiReportConverter.Tests.CSVParser
 {
 
     public class EverfiCSVReaderTest

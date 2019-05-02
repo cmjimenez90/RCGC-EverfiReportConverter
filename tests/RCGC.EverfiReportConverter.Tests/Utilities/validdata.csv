@@ -1,5 +1,5 @@
-FIRST_NAME,LAST_NAME,EMAIL,SUPERVISOR,EMPLOYEE_ID
-Test1,Account1,taccount@fake.com,,asdfqwerzxcvasdfqwer
-Test2,Account2,taccount2@fake.com,,asdfqwerzxcvasdfqwer
-Test3,Account3,taccount3@fake.com,yes,cvbndfghertydfghccvbn
-test4,Account4,taccount4@fake.com,no,cvbndfghertydfghccvbn
+FIRST_NAME,LAST_NAME,EMAIL,SUPERVISOR,EMPLOYEE_ID,LOCATION_TITLE,LOCATION_ABR,GROUP_TITLE,GROUP_ABR
+Jeidk,Anthony,jeakd@fake.edu,N,14B6CA2D28735553E0531E20000A081A,Student Services,STS, , ,
+Judith,Nicole,drek@fake.edu,N,14B6CA2B97EF5553E0531E20000A081A,Student Services,STS, , ,
+Gorg,Awalt,gorg@fake.edu,N,14B6CA2C39585553E0531E20000A081A,Operations,OPE, , ,
+Franks,Benson,fake@fake.edu,N,14B6CA2D78B75553E0531E20000A081A,Academic Services,ACD, , ,

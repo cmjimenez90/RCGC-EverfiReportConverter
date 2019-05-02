@@ -1,11 +1,9 @@
-using System.Data;
-using System.Security.AccessControl;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
-using RCGC.EverfiReportConverter.Model;
+using RCGC.EverfiReportConverter.CSVParser.Model;
 using TinyCsvParser;
-namespace RCGC.EverfiReportConverter.FileParser
+namespace RCGC.EverfiReportConverter.CSVParser
 {
 
     public class EverfiCSVReader

@@ -1,4 +1,4 @@
-namespace RCGC.EverfiReportConverter.Model
+namespace RCGC.EverfiReportConverter.CSVParser.Model
 {
     public class EverfiUser
     {
