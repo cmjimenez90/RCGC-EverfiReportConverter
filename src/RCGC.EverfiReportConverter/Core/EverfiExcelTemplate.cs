@@ -1,31 +1,33 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using OfficeOpenXml;
+using RCGC.EverfiReportConverter.CSVParser.Model;
 using Serilog;
 
 namespace RCGC.EverfiReportConverter.Core
 {
-    public class EverfiExcelTemplate : IDisposable, IExcelTemplate
+    public class EverfiExcelTemplate : IDisposable, IExcelTemplate<EverfiUser>
     {
         public string INPUT_START_LOCATION { get; set; } = "A3";
         public string TEMPLATE_SHEET_NAME { get; set; } = "Upload Template";
         private readonly ILogger logger;
         private readonly ExcelPackage excelPackage;
 
-        public EverfiExcelTemplate(FileInfo fileInfo, ILogger logger)
+        public EverfiExcelTemplate(FileInfo TemplateFile, ILogger logger)
         {
             this.logger = logger;
             this.logger.ForContext<EverfiExcelTemplate>();
 
-            if (fileInfo.Exists)
+            if (TemplateFile.Exists)
             {
-                excelPackage = new ExcelPackage(fileInfo);
+                excelPackage = new ExcelPackage(TemplateFile);
                
             }
             else
             {
-                this.logger.Debug("FILE NOT FOUND: {0}", fileInfo.FullName);
-                throw new FileNotFoundException($"File not found: {fileInfo.FullName}");
+                logger.Debug("FILE NOT FOUND: {0}", TemplateFile.FullName);
+                throw new FileNotFoundException($"File not found: {TemplateFile.FullName}");
             }
         }
 
@@ -35,10 +37,11 @@ namespace RCGC.EverfiReportConverter.Core
             {
                 ExcelWorksheet sheet = FindWorkSheetByName(this.TEMPLATE_SHEET_NAME);
                 if(null != sheet){
-                    this.logger.Debug("Loading CSV data: {0} into sheet with name of {2}", csvFile.FullName, this.TEMPLATE_SHEET_NAME);
+                    logger.Debug("Loading CSV data: {0} into sheet with name of {2}", csvFile.FullName, this.TEMPLATE_SHEET_NAME);
                     sheet.Cells[this.INPUT_START_LOCATION].LoadFromText(csvFile,csvFormat);
                     return true;
-                }              
+                }
+                logger.Error("Sheet not found: {0}", this.TEMPLATE_SHEET_NAME);
                 return false;
             }
             else
@@ -47,6 +50,27 @@ namespace RCGC.EverfiReportConverter.Core
                 throw new FileNotFoundException($"CSV file does not exist: {csvFile.FullName}");
             }
         }
+        public bool ImportDataFromList(IList<EverfiUser> items)
+        {
+            if(items.Count >= 1)
+            {
+                ExcelWorksheet sheet = FindWorkSheetByName(this.TEMPLATE_SHEET_NAME);
+                if (null != sheet)
+                {
+                    logger.Information("Loading {0} objects into the sheet: {1}", items.Count ,this.TEMPLATE_SHEET_NAME);
+                    sheet.Cells[this.INPUT_START_LOCATION].LoadFromCollection(items);
+                    return true;
+                }
+                logger.Error("Sheet not found: {0}", this.TEMPLATE_SHEET_NAME);
+                return false;
+            }
+            else
+            {
+                logger.Error("No items found to import in provided list");
+                return false;
+            }
+        }
+
 
         public bool SaveTemplateTo(FileInfo savePath)
         {
@@ -64,8 +88,7 @@ namespace RCGC.EverfiReportConverter.Core
             {
                 this.logger.Debug("Failed to save the excel file | Reason {0}", ex);
                 return false;
-            }
-            
+            }          
         }
 
         public void Dispose()
@@ -81,12 +104,12 @@ namespace RCGC.EverfiReportConverter.Core
                 {
                     this.logger.Verbose("Sheet found: {0}", sheet.Name);
                     return sheet;
-                }
-                    
+                }                    
             }
             this.logger.Verbose("Sheet not found: {0} | returning null", workSheetName);
             return null;
         }
 
+        
     }
 }
