@@ -5,8 +5,6 @@ using System.Text;
 using System.Collections.Generic;
 using RCGC.EverfiReportConverter.Model;
 using TinyCsvParser;
-using TinyCsvParser.Mapping;
-using TinyCsvParser.Tokenizer;
 namespace RCGC.EverfiReportConverter.FileParser
 {
 

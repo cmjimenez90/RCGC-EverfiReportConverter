@@ -7,5 +7,9 @@ namespace RCGC.EverfiReportConverter.Model
         public string Email { get; set; }
         public string EmployeId { get; set; }
         public string Supervisor { get; set; }
+        public string LocationTitle { get; set; }
+        public string LocationAbr { get; set; }
+        public string GroupTitle { get; set; }
+        public string GroupAbr { get; set; }
     }
 }

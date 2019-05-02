@@ -10,7 +10,7 @@ namespace RCGC.EverfiReportConverter
 {
     class Application : IApplication
     {
-        private readonly ReportConfiguration configuration;
+        private readonly AppConfiguration configuration;
         private readonly ILogger logger;
 
         private readonly FileInfo templateFile;
@@ -18,7 +18,7 @@ namespace RCGC.EverfiReportConverter
         private readonly DateTime timeStamp;
         private readonly FileArchiver fileArchiver;
 
-        public Application(ReportConfiguration configuration, ILogger logger)
+        public Application(AppConfiguration configuration, ILogger logger)
         {
             this.configuration = configuration;
             this.logger = logger;
