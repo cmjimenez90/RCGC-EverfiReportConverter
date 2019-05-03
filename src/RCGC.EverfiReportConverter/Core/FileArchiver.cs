@@ -16,7 +16,6 @@ namespace RCGC.EverfiReportConverter.Core
         {
             this.timestamp = timestamp;
             this.log = log;
-            this.log.ForContext<FileArchiver>();
             this.fileTagger = new DateFileTagger();
         }
 

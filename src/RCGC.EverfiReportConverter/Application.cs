@@ -27,7 +27,6 @@ namespace RCGC.EverfiReportConverter
             this.configuration = configuration;
             this.fieldOverrides = fieldOverrides;
             this.logger = logger;
-            this.logger.ForContext<Application>();
             try
             {
                 timeStamp = DateTime.Now;
