@@ -1,16 +1,20 @@
-﻿using OfficeOpenXml;
-using RCGC.EverfiReportConverter.Configuration;
+﻿using RCGC.EverfiReportConverter.Configuration;
 using RCGC.EverfiReportConverter.Core;
 using RCGC.EverfiReportConverter.Core.FileTagger;
+using RCGC.EverfiReportConverter.CSVParser;
+using RCGC.EverfiReportConverter.CSVParser.Model;
+using System.Linq;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace RCGC.EverfiReportConverter
 {
     class Application : IApplication
     {
-        private readonly ReportConfiguration configuration;
+        private readonly AppConfiguration configuration;
+        private readonly CSVFieldOverrides fieldOverrides;
         private readonly ILogger logger;
 
         private readonly FileInfo templateFile;
@@ -18,11 +22,11 @@ namespace RCGC.EverfiReportConverter
         private readonly DateTime timeStamp;
         private readonly FileArchiver fileArchiver;
 
-        public Application(ReportConfiguration configuration, ILogger logger)
+        public Application(AppConfiguration configuration, CSVFieldOverrides fieldOverrides, ILogger logger)
         {
             this.configuration = configuration;
+            this.fieldOverrides = fieldOverrides;
             this.logger = logger;
-            this.logger.ForContext<Application>();
             try
             {
                 timeStamp = DateTime.Now;
@@ -47,12 +51,13 @@ namespace RCGC.EverfiReportConverter
                     Environment.Exit(0);
                 }
 
+                IEnumerable<EverfiUser> userList = GetEverfiUsersFromCSV();
+
                 logger.Information("Loading Template at: {0}", templateFile.FullName);
                 using (EverfiExcelTemplate template = new EverfiExcelTemplate(this.templateFile, this.logger))
-                {
-                    ExcelTextFormat format = GetCSVFileConfiguration();
+                {                    
                     logger.Information("Importing CSV File from: {0}", csvFile.FullName);
-                    template.ImportCsv(format, this.csvFile);
+                    template.ImportDataFromList(userList.ToList());
                     DateFileTagger fileTagger = new DateFileTagger();
                     FileInfo saveDestination = new FileInfo(Environment.ExpandEnvironmentVariables(this.configuration.ReportSavePath));                  
                     saveDestination = fileTagger.Tag(saveDestination, this.timeStamp);
@@ -102,16 +107,12 @@ namespace RCGC.EverfiReportConverter
                 return false;
             }
             return true;
-        }    
-
-        private ExcelTextFormat GetCSVFileConfiguration()
+        }   
+        
+        private IEnumerable<EverfiUser> GetEverfiUsersFromCSV()
         {
-            ExcelTextFormat format = new ExcelTextFormat
-            {
-                EOL = configuration.EOF,
-                SkipLinesBeginning = configuration.SkipBeginingCSVLines
-            };
-            return format;
+            EverfiCSVReader csvReader = new EverfiCSVReader(logger,fieldOverrides);
+            return csvReader.ReadDataFromCsvFile(csvFile.FullName);
         }
     }
 }

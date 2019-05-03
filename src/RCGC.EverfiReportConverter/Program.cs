@@ -1,8 +1,6 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
 using RCGC.EverfiReportConverter.Configuration;
-using RCGC.EverfiReportConverter.Core;
-using Serilog;
 
 namespace RCGC.EverfiReportConverter
 {

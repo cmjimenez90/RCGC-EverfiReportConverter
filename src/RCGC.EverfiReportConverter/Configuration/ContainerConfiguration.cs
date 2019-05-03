@@ -1,10 +1,8 @@
 ﻿using Autofac;
 using AutofacSerilogIntegration;
 using Microsoft.Extensions.Configuration;
-using RCGC.EverfiReportConverter.Core;
 using Serilog;
-using Serilog.Core;
-using System.IO;
+
 
 namespace RCGC.EverfiReportConverter.Configuration
 {
@@ -17,9 +15,11 @@ namespace RCGC.EverfiReportConverter.Configuration
             ContainerBuilder builder = new ContainerBuilder();
             builder.Register(config =>
             {
-                ReportConfiguration reportConfiguration = new ReportConfiguration();
-                configuration.GetSection("ReportConfiguration").Bind(reportConfiguration);
-                return new Application(reportConfiguration, Log.Logger);
+                AppConfiguration appConfiguration = new AppConfiguration();
+                CSVFieldOverrides csvFieldOverrides = new CSVFieldOverrides();
+                configuration.GetSection("AppConfiguration").Bind(appConfiguration);
+                configuration.GetSection("CSVFieldOverrides").Bind(csvFieldOverrides);
+                return new Application(appConfiguration,csvFieldOverrides, Log.Logger);
             }).As<IApplication>();
             builder.RegisterLogger();
             return builder.Build();

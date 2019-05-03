@@ -4,6 +4,8 @@ using Xunit;
 using RCGC.EverfiReportConverter.Core;
 using OfficeOpenXml;
 using Serilog;
+using System.Collections.Generic;
+using RCGC.EverfiReportConverter.CSVParser.Model;
 
 namespace RCGC.EverfiReportConverter.Tests.Core
 {
@@ -117,6 +119,56 @@ namespace RCGC.EverfiReportConverter.Tests.Core
             }
 
             Assert.True(csvDataImported);
+        }
+
+        [Fact]
+        public void EverfiExcelTemplate_ImportFromList_ReturnsTrueIfDataIsImported()
+        {
+            FileInfo existingFilePath = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
+            var mockLogger = new Mock<ILogger>();
+            bool dataImported = false;
+
+            List<EverfiUser> userList = new List<EverfiUser>();
+            for(int count = 0; count < 4; count++)
+            {
+                EverfiUser user = new EverfiUser
+                {
+                    FIRST_NAME = "FIRST",
+                    LAST_NAME = "LAST",
+                    EMAIL = "EMAIL",
+                    SUPERVISOR = "SUPER",
+                    EMPLOYEE_ID = "Employee",
+                    GROUP_TITLE = "GROUP_T",
+                    GROUP_ABR = "GROUP_A",
+                    LOCATION_ABR = "LOC_A",
+                    LOCATION_TITLE = "LOC_T"
+                };
+                userList.Add(user);
+            }
+
+            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath, mockLogger.Object))
+            {
+                dataImported = excelTemplate.ImportDataFromList(userList);
+            }
+
+            Assert.True(dataImported);
+        }
+        [Fact]
+        public void EverfiExcelTemplate_ImportFromList_ReturnsFalseIfDataIsEmpty()
+        {
+            FileInfo existingFilePath = new FileInfo("../../../Utilities/TestData/faketemplate.xlsx");
+           
+            var mockLogger = new Mock<ILogger>();
+            bool dataImported = true;
+
+            List<EverfiUser> userList = new List<EverfiUser>();
+           
+
+            using (EverfiExcelTemplate excelTemplate = new EverfiExcelTemplate(existingFilePath, mockLogger.Object))
+            {
+                dataImported = excelTemplate.ImportDataFromList(userList);
+            }
+            Assert.False(dataImported);
         }
     }
 }
