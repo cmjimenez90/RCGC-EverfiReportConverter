@@ -6,7 +6,6 @@
     <Authors>Carlos M Jimenez</Authors>
     <Company>RCGC</Company>
     <Description>Automation tool to convert a csv file to a designated excel spreadsheet.</Description>
-    <ApplicationIcon>spreadsheet.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
