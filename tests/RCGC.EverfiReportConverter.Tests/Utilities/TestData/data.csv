@@ -1,0 +1,5 @@
+FIRST_NAME,LAST_NAME,EMAIL,SUPERVISOR,EMPLOYEE_ID
+John,Doe,jdoe@fake.com,n,asdfghjklqwertyuiopzxcvbnm
+John,Doe2,jdoe2@fake.com,n,asdfghjklqwertyuiopzxcvbnm
+John,Doe3,jdoe3@fake.com,,asdfghjklqwertyuiopzxcvbnm
+John,Doe4,jdoe4@fake.com,yes,asdfghjklqwertyuiopzxcvbnm
