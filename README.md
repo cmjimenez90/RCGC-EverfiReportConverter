@@ -1,5 +1,6 @@
 # Everfi Report Converter
-[![CircleCI](https://circleci.com/gh/cmjimenez90/RCGC-EverfiReportConverter/tree/develop.svg?style=shield&circle-token=26bb20a0b28ae2ec0a8b4331501168ee9fa2f0f1)](https://circleci.com/gh/cmjimenez90/RCGC-EverfiReportConverter/tree/develop)
+![CircleCI branch](https://img.shields.io/circleci/project/github/cmjimenez90/RCGC-EverfiReportConverter/master.svg?label=MASTER&style=plastic)
+![CircleCI branch](https://img.shields.io/circleci/project/github/cmjimenez90/RCGC-EverfiReportConverter/develop.svg?label=DEV&style=plastic)
 
 ## Purpose
 
